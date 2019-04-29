@@ -100,14 +100,14 @@
             </Controls:HamburgerButtonInfo>
 
             <!--  Contact button  -->
-            <Controls:HamburgerButtonInfo ClearHistory="True" PageType="views:ContactDetails" 
+            <Controls:HamburgerButtonInfo ClearHistory="True" PageType="views:ContactDetailsPage" 
                                           AutomationProperties.Name="Jerry"
                                           >
                 <StackPanel Orientation="Horizontal">
                     <SymbolIcon Width="48" Height="48"
-                		Symbol="Bullets" />
+                		Symbol="Contact" />
                     <TextBlock Margin="12,0,0,0" VerticalAlignment="Center"
-                               Text="WishList" />
+                               Text="Contacts" />
                 </StackPanel>
             </Controls:HamburgerButtonInfo>
         </Controls:HamburgerMenu.PrimaryButtons>
