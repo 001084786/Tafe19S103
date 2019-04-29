@@ -46,15 +46,26 @@ namespace StartFinance.Views
             /// Refresh Data
             var query = conn.Table<Appointments>();
             AppointmentListView.ItemsSource = query.ToList();
+            EventDateCalendar.Date = DateTime.Now;
         }
 
         private async void AddData(object sender, RoutedEventArgs e)
         {
             try
             {
-                if (EventNameText.Text.ToString() == "")
+                if (EventNameText.Text.ToString() == "" )
                 {
-                    MessageDialog dialog = new MessageDialog("No Account Name entered", "Oops..!");
+                    MessageDialog dialog = new MessageDialog("No Appointment Name has been entered", "Oops..!");
+                    await dialog.ShowAsync();
+                }
+                else if (LocationText.Text.ToString() == "")
+                {
+                    MessageDialog dialog = new MessageDialog("No Appointment Address has been entered", "Oops..!");
+                    await dialog.ShowAsync();
+                }
+                else if (EventDateCalendar.Date < DateTime.Now)
+                {
+                    MessageDialog dialog = new MessageDialog("Appointment Date must be later than the current date", "Oops..!");
                     await dialog.ShowAsync();
                 }
                 else
@@ -63,9 +74,9 @@ namespace StartFinance.Views
                     {
                         EventName = EventNameText.Text,
                         Location = LocationText.Text,
-                        EventDate = EventDateCalendar,
-                        StartTime = StartTimeBox.Time,
-                        EndTime = EndTimeBox.Time,
+                        EventDate = DateTime.Parse(EventDateCalendar.Date.ToString()).ToString("MM/dd/yyyy"),
+                        StartTime = DateTime.Parse(StartTimeBox.Time.ToString()).ToString("hh:mm tt"),
+                        EndTime = DateTime.Parse(EndTimeBox.Time.ToString()).ToString("hh:mm tt"),
                     });
                     Results();
                 }
@@ -102,7 +113,7 @@ namespace StartFinance.Views
         {
             try
             {
-                string AppointmentSelection = ((Appointments)AppointmentListView.SelectedItem).EventName;
+                string AppointmentSelection = ((Appointments)AppointmentListView.SelectedItem).ID.ToString();
                 if (AppointmentSelection == "")
                 {
                     MessageDialog dialog = new MessageDialog("Not selected the Item", "Oops..!");
@@ -112,7 +123,7 @@ namespace StartFinance.Views
                 {
                     conn.CreateTable<Appointments>();
                     var query1 = conn.Table<Appointments>();
-                    var query3 = conn.Query<Appointments>("DELETE FROM Appointments WHERE EventName ='" + AppointmentSelection + "'");
+                    var query3 = conn.Query<Appointments>("DELETE FROM Appointments WHERE ID ='" + AppointmentSelection + "'");
                     AppointmentListView.ItemsSource = query1.ToList();
                 }
             }

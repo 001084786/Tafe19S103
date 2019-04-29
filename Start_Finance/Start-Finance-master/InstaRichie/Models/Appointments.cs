@@ -19,13 +19,13 @@ namespace StartFinance.Models
         public string Location { get; set; }
 
         [NotNull]
-        public DateTimeOffset EventDate { get; set; }
+        public string EventDate { get; set; }
 
         [NotNull]
-        public DateTime StartTime { get; set; }
+        public string StartTime { get; set; }
 
         [NotNull]
-        public DateTime EndTime { get; set; }
+        public string EndTime { get; set; }
 
     }
 }

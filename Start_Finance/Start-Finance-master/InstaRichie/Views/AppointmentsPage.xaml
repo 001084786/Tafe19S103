@@ -19,9 +19,9 @@
                     <TextBlock Text="{Binding ID}" Padding="0,0,15,0"/>
                     <TextBlock Text="{Binding EventName}" Padding="0,0,15,0"/>
                     <TextBlock Text="{Binding Location}" Padding="0,0,15,0"/>
-                    <!--<TextBlock Text="{Binding EventDate}" Padding="0,0,15,0"/>
-                    //<TextBlock Text="{Binding StartTime}" Padding="0,0,15,0"/>        FIX LATER
-                    //<TextBlock Text="{Binding EndTime}" Padding="0,0,15,0"/>-->
+                    <TextBlock Text="{Binding EventDate}" Padding="0,0,15,0"/>
+                    <TextBlock Text="{Binding StartTime}" Padding="0,0,15,0"/>
+                    <TextBlock Text="{Binding EndTime}" Padding="0,0,15,0"/>
                 </StackPanel>
             </Grid>
         </DataTemplate>
@@ -84,7 +84,7 @@
             <!--  secondary commands  -->
             <controls:PageHeader.PrimaryCommands>
                 <AppBarButton Icon="Add" Label="Add Appointment" Click="AddData" />
-                <AppBarButton Icon="Delete" Label="Delete Appointment" Click="DeleteAccout_Click" />
+                <AppBarButton Icon="Delete" Label="Delete Appointment" Click="DeleteAppointment_Click" />
             </controls:PageHeader.PrimaryCommands>
 
         </controls:PageHeader>
@@ -102,9 +102,9 @@
                     <StackPanel x:Name="pageStart" Grid.Row="0" VerticalAlignment="Top"
                                 HorizontalAlignment="Stretch"
                                 Orientation="Vertical" Margin="10,0,10,0">
-                        <TextBox x:Name="EventNameText" PlaceholderText="Event Name Here" Header="Event Name"/>
+                        <TextBox x:Name="EventNameText" PlaceholderText="Appointment Name Here" Header="Appointment Name"/>
                         <TextBox x:Name="LocationText" PlaceholderText="Address Here" Header="Location"/>
-                        <CalendarDatePicker x:Name="EventDateCalendar" Header="Event Date"/>
+                        <CalendarDatePicker x:Name="EventDateCalendar" Header="Appointment Date"/>
                         <TimePicker x:Name="StartTimeBox" Header="Start Time"/>
                         <TimePicker x:Name="EndTimeBox" Header="End Tune"/>
                     </StackPanel>
