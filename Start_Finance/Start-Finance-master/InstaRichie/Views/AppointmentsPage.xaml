@@ -85,6 +85,8 @@
             <controls:PageHeader.PrimaryCommands>
                 <AppBarButton Icon="Add" Label="Add Appointment" Click="AddData" />
                 <AppBarButton Icon="Delete" Label="Delete Appointment" Click="DeleteAppointment_Click" />
+                <AppBarButton Icon="edit" Label="Edit Appointment" Click="EditAppointmentInfo_Click" />
+                <AppBarButton Icon="Save" Label="Save Appointment" Click="SaveAppointmentInfo_Click"/>
             </controls:PageHeader.PrimaryCommands>
 
         </controls:PageHeader>
@@ -109,7 +111,7 @@
                         <TimePicker x:Name="EndTimeBox" Header="End Tune"/>
                     </StackPanel>
                     <ListView x:Name="AppointmentListView" Grid.Row="1" HorizontalAlignment="Stretch"
-                                VerticalAlignment="Stretch"
+                                VerticalAlignment="Stretch" SelectionChanged="AppointmentListView_SelectionChanged"
                                 ItemTemplate="{StaticResource AppointmentListDatavalue}">
                         <RelativePanel.Below>pageStart</RelativePanel.Below>
                     </ListView>

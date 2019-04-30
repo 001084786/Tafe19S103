@@ -29,6 +29,8 @@ namespace StartFinance.Views
         SQLiteConnection conn; // adding an SQLite connection
         string path = Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, "Findata.sqlite");
 
+        Appointments a1 = new Appointments();
+
         public AppointmentsPage()
         {
             this.InitializeComponent();
@@ -49,11 +51,17 @@ namespace StartFinance.Views
             EventDateCalendar.Date = DateTime.Now;
         }
 
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            Results();
+        }
+
+
         private async void AddData(object sender, RoutedEventArgs e)
         {
             try
             {
-                if (EventNameText.Text.ToString() == "" )
+                if (EventNameText.Text.ToString() == "")
                 {
                     MessageDialog dialog = new MessageDialog("No Appointment Name has been entered", "Oops..!");
                     await dialog.ShowAsync();
@@ -75,8 +83,8 @@ namespace StartFinance.Views
                         EventName = EventNameText.Text,
                         Location = LocationText.Text,
                         EventDate = DateTime.Parse(EventDateCalendar.Date.ToString()).ToString("MM/dd/yyyy"),
-                        StartTime = DateTime.Parse(StartTimeBox.Time.ToString()).ToString("hh:mm tt"),
-                        EndTime = DateTime.Parse(EndTimeBox.Time.ToString()).ToString("hh:mm tt"),
+                        StartTime = DateTime.Parse(StartTimeBox.Time.ToString()).ToString("HH:mm"),
+                        EndTime = DateTime.Parse(EndTimeBox.Time.ToString()).ToString("HH:mm"),
                     });
                     Results();
                 }
@@ -104,11 +112,6 @@ namespace StartFinance.Views
             await ClearDialog.ShowAsync();
         }
 
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            Results();
-        }
-
         private async void DeleteAppointment_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -125,6 +128,61 @@ namespace StartFinance.Views
                     var query1 = conn.Table<Appointments>();
                     var query3 = conn.Query<Appointments>("DELETE FROM Appointments WHERE ID ='" + AppointmentSelection + "'");
                     AppointmentListView.ItemsSource = query1.ToList();
+                }
+            }
+            catch (NullReferenceException)
+            {
+                MessageDialog dialog = new MessageDialog("Not selected the Item", "Oops..!");
+                await dialog.ShowAsync();
+            }
+        }
+
+        private void AppointmentListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            a1 = (Appointments)AppointmentListView.SelectedItem;
+        }
+        private async void EditAppointmentInfo_Click(object sender, RoutedEventArgs e)
+        {
+
+            try
+            {
+                EventNameText.Text = a1.EventName;
+                LocationText.Text = a1.Location;
+                EventDateCalendar.Date = Convert.ToDateTime(a1.EventDate);
+                StartTimeBox.Time = TimeSpan.Parse(a1.StartTime);
+                EndTimeBox.Time = TimeSpan.Parse(a1.EndTime);
+            }
+
+            catch (Exception ex)
+            {
+                var exp = ex.Message;
+                MessageDialog dialog = new MessageDialog("No Item selected to edit", "Oops..!");
+                await dialog.ShowAsync();
+            }
+
+        }
+
+        private async void SaveAppointmentInfo_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string AppointmentSelection = ((Appointments)AppointmentListView.SelectedItem).ID.ToString();
+                if (AppointmentSelection == "")
+                {
+                    MessageDialog dialog = new MessageDialog("Not selected the Item", "Oops..!");
+                    await dialog.ShowAsync();
+                }
+                else
+                {
+                    a1.EventName = EventNameText.Text;
+                    a1.Location = LocationText.Text;
+                    a1.EventDate = DateTime.Parse(EventDateCalendar.Date.ToString()).ToString("MM/dd/yyyy");
+                    a1.StartTime = DateTime.Parse(StartTimeBox.Time.ToString()).ToString("HH:mm");
+                    a1.EndTime = DateTime.Parse(EndTimeBox.Time.ToString()).ToString("HH:mm");
+
+                    var query1 = conn.Update(a1);
+                    var query3 = conn.Table<Appointments>();
+                    AppointmentListView.ItemsSource = query3.ToList();
                 }
             }
             catch (NullReferenceException)
