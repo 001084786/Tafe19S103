@@ -159,15 +159,22 @@ namespace StartFinance.Views
             p1 = (PersonalInfo)TransactionList.SelectedItem;
         }
 
-        private void EditPersonalInfo_Click(object sender, RoutedEventArgs e)
+        private async void EditPersonalInfo_Click(object sender, RoutedEventArgs e)
         {
-
-            txtFirstName.Text = p1.FirstName;
-            txtLastName.Text = p1.LastName;
-            txtDOB.Text = p1.DOB;
-            txtGender.Text = p1.Gender;
-            txtEmailAddress.Text = p1.EmailAddress;
-            txtMobile.Text = p1.Mobile;
+            try
+            {
+                txtFirstName.Text = p1.FirstName;
+                txtLastName.Text = p1.LastName;
+                txtDOB.Text = p1.DOB;
+                txtGender.Text = p1.Gender;
+                txtEmailAddress.Text = p1.EmailAddress;
+                txtMobile.Text = p1.Mobile;
+            }
+            catch
+            {
+                MessageDialog dialog = new MessageDialog("Not selected the item to Edit", "Oops..!");
+                await dialog.ShowAsync();
+            }
 
             //p1.FirstName = txtFirstName.Text;
             //p1.LastName = txtLastName.Text;
